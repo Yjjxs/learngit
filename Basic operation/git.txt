@@ -1,0 +1,137 @@
+1.一般工作流程：
+	克隆 Git 资源作为工作目录。
+	在克隆的资源上添加或修改文件。 
+	如果其他人修改了，你可以更新资源。
+	在提交前查看修改
+	提交修改
+	在修改完成后，如果发现错误，可以撤回提交并再次修改并提交。
+	
+2.工作区、暂存区、版本库
+	工作区：就是你在电脑里能看到的目录。
+	暂存区：英文叫 stage 或 index。一般存放在 .git 目录下的 index 文件（.git/index）中，所以我们把暂存区有时也叫作索引（index）。
+	版本库：工作区有一个隐藏目录 .git，这个不算工作区，而是 Git 的版本库。
+	
+3.创建仓库
+	1)git init
+	Git 使用 git init 命令来初始化一个 Git 仓库，Git 的很多命令都需要在 Git 的仓库中运行，所以 git init 是使用 Git 的第一个命令。
+	在执行完成 git init 命令后，Git 仓库会生成一个 .git 目录，该目录包含了资源的所有元数据，其他的项目目录保持不变。
+	 使用当前目录作为Git仓库，我们只需使它初始化。 
+	 git init
+	 
+	 使用我们指定目录作为Git仓库。 
+	 git init newrepo
+	 
+	 初始化后，会在 newrepo 目录下会出现一个名为 .git 的目录，所有 Git 需要的数据和资源都存放在这个目录中。
+	 如果当前目录下有几个文件想要纳入版本控制，需要先用 git add 命令告诉 Git 开始对这些文件进行跟踪，然后提交
+	 
+	2）git clone
+	我们使用 git clone 从现有 Git 仓库中拷贝项目（类似 svn checkout）。 
+	git clone <repo>
+	如果我们需要克隆到指定的目录，可以使用以下命令格式：
+	git clone <repo> <directory>
+	
+	3)配置
+	git 的设置使用 git config 命令。
+	 显示当前的 git 配置信息： 
+	 $ git config --list
+	 credential.helper=osxkeychain
+	 core.repositoryformatversion=0
+	 core.filemode=true
+	 core.bare=false
+	 core.logallrefupdates=true
+	 core.ignorecase=true
+	 core.precomposeunicode=true
+	 
+	 编辑 git 配置文件: 
+	 $ git config -e    # 针对当前仓库 
+	 或者：
+	 $ git config -e --global   # 针对系统上所有仓库
+	 
+	 设置提交代码时的用户信息：
+	 $ git config --global user.name "runoob"
+	 $ git config --global user.email test@runoob.com
+	 如果去掉 --global 参数只对当前仓库有效。
+	 
+4.git基本操作：
+	Git 常用的是以下 6 个命令：git clone、git push、git add 、git commit、git checkout、git pull
+	
+	git add 	添加文件到仓库
+	git status 	查看仓库当前的状态，显示有变更的文件。
+	git diff 	比较文件的不同，即暂存区和工作区的差异。
+	git commit 	提交暂存区到本地仓库。
+	git reset 	回退版本。
+	git rm 	删除工作区文件。
+	git mv 	移动或重命名工作区文件。
+
+	提交日志：
+	git log 	查看历史提交记录
+	git blame <file> 	以列表形式查看指定文件的历史修改记录
+	
+	远程操作：
+	git remote 	远程仓库操作
+	git fetch 	从远程获取代码库
+	git pull 	下载远程代码并合并
+	git push 	上传远程代码并合并
+	
+5.git分支管理
+	 创建分支命令：
+	 git branch (branchname)
+	 
+	 切换分支命令:
+	 git checkout (branchname)
+	 当你切换分支的时候，Git 会用该分支的最后提交的快照替换你的工作目录的内容， 所以多个分支不需要多个目录。
+	 
+	 合并分支命令:
+	 git merge 
+	 你可以多次合并到统一分支， 也可以选择在合并之后直接删除被并入的分支。 
+	 
+	分支管理：
+	 列出分支：git branch
+	 没有参数时，git branch 会列出你在本地的分支。
+	 如果我们要手动创建一个分支。执行 git branch (branchname) 即可。 
+	 我们也可以使用 git checkout -b (branchname) 命令来创建新分支并立即切换到该分支下，从而在该分支中操作。
+	 
+	 
+	删除分支：
+	git branch -d (branchname)
+	合并冲突：在 Git 中，我们可以用 git add 要告诉 Git 文件冲突已经解决
+	
+6.查看提交历史
+	 git log - 查看历史提交记录。
+	 git blame <file> - 以列表形式查看指定文件的历史修改记录。
+	 
+7.git标签
+	$ git tag -a v1.0 
+	如果我们要查看所有标签可以使用以下命令
+	$ git tag
+	
+8.git github
+	添加远程仓库：git remote add [shortname] [url]
+	由于你的本地 Git 仓库和 GitHub 仓库之间的传输是通过SSH加密的，所以我们需要配置验证信息：
+	使用以下命令生成 SSH Key：
+	$ ssh-keygen -t rsa -C "youremail@example.com"
+	 后面的 your_email@youremail.com 改为你在 Github 上注册的邮箱，之后会要求确认路径和输入密码，我们这使用默认的一路回车就行。
+	成功的话会在 ~/ 下生成 .ssh 文件夹，进去，打开 id_rsa.pub，复制里面的 key。
+	回到 github 上，进入 Account => Settings（账户配置）。
+	左边选择 SSH and GPG keys，然后点击 New SSH key 按钮,title 设置标题，可以随便填，粘贴在你电脑上生成的 key。
+	为了验证是否成功，输入以下命令：
+	$ ssh -T git@github.com
+	
+	
+	查看当前的远程库：git remote
+	
+	
+	提取远程库：
+	从远程仓库下载新分支与数据：git fetch
+		从远端仓库提取数据并尝试合并到当前分支：git merge
+	  
+	  
+	
+	推送到远程库
+	  推送你的新分支与数据到某个远端仓库命令:：git push [alias] [branch]
+	  
+	删除远程仓库
+		git remote rm [别名]
+		
+	gitee（操作基本类似）
+	
